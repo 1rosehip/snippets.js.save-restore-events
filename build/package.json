@@ -1,0 +1,7 @@
+{
+	"name": "store-restore-events",
+	"version": "1.0.4",
+	"dependencies": {
+		"closurecompiler": "*"
+	}
+}

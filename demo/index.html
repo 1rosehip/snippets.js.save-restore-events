@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script src="js/vendor/jquery-1.11.0.min.js"></script>
+		<script src="js/store-restore-events.min.js"></script>
+		<script>
+			$(document).ready(function(){
+			
+				var $btn = $('#btn')
+					,$box = $('#box');
+				
+				//set first event
+				$btn.on('click', function(){
+					$box.toggle();
+				});
+				
+				//set second event
+				$btn.on('mouseover', function(){
+					$(this).css('border', '1px solid blue');
+				});
+				
+				//set third event
+				$btn.on('mouseout', function(){
+					$(this).css('border', '');
+				});
+				
+				//save events
+				$.srEvents.save($btn, 'custom-events');
+				
+				//remove all events
+				$btn.off();
+				
+				//restore all events
+				$.srEvents.restore($btn, 'custom-events');
+			});
+		</script>
+	</head>
+	<body>
+		<button id="btn">Click Me</button>
+		<div id="box" style="display: none">
+			<p>lorem Ipsum</p>
+		</div>
+	</body>
+</html>
