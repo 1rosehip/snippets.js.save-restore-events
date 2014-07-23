@@ -22,55 +22,65 @@
 	
 	/**
 	* save events
-	* @param {jQueryObject} $el
+	* @param {jQueryObject} $elements
 	* @param {string} propertyName - property that keeps event data (in data object)
 	*/
-	$.srEvents.save = function($el, propertyName){
-		
-		var events
-			,copyOf;
-		
-		if($el && $el.length > 0){
+	$.srEvents.save = function($elements, propertyName){
+				
+		if($elements && $elements.length > 0){
 			
-			//get events from element
-			events = $._data($el[0], 'events');
+			$elements.each(function(){
 			
-			//create deep copy of the events object
-			copyOf = $.extend(true, {}, events);			
-			
-			//save events in data
-			$el.data(propertyName, copyOf);
+				var $el = $(this)
+					,copyOf
+					,events;
+				
+				//get events from element
+				events = $._data($el.get(0), 'events');
+				
+				//create deep copy of the events object
+				copyOf = $.extend(true, {}, events);			
+				
+				//save events in data
+				$el.data(propertyName, copyOf);
+			});
 		}		
 	};
 	
 	/**
 	* restore events
-	* @param {jQueryObject} $el
+	* @param {jQueryObject} $elements
 	* @param {string} propertyName - property that keeps event data (in data object)
 	*/
-	$.srEvents.restore = function($el, propertyName){
-		
-		var events;
-		
-		if($el && $el.length > 0){	
-						
-			//get saved events
-			events = $el.data(propertyName);
-			
-			if(events){
-			
-				$.each(events, function(eventName, eventHandler){
+	$.srEvents.restore = function($elements, propertyName){
 				
-					if(eventHandler){
-						$.each(eventHandler, function(){
+		if($elements){	
+			
+			$elements.each(function(){
+			
+				var $el = $(this)
+					,events;
+				
+				//get saved events
+				events = $el.data(propertyName);
+				
+				if(events){
+				
+					$.each(events, function(eventName, eventHandler){
 						
-							if($.isFunction(this.handler)){
-								$el.on(eventName, this.handler);
-							}
-						});
-					}
-				});
-			}
+						if(eventHandler){
+							$.each(eventHandler, function(){
+							
+								if($.isFunction(this.handler)){
+									$el.on(eventName, this.handler);
+								}
+							});
+						}
+					});
+				}
+			});
+			
+			
 		}
 	};
 	
